@@ -9,8 +9,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
-set(CTEST_TARGETS_ADDED 1)
-
 add_executable(
     libecs_tests
         TestRegistryEntities.cpp
