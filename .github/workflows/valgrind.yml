@@ -11,4 +11,4 @@ jobs:
       - name: "Build"
         run: "cmake --build build/ --parallel"
       - name: "Start unit tests"
-        run: "valgrind ./build/tests/libecs_tests"
+        run: "valgrind ./build/tests/libecs_tests --error-exitcode=1"
