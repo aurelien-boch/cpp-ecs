@@ -35,10 +35,6 @@ namespace ecs::containers
             {
                 int k = 0x7fffffff;
                 k += 10;
-
-                char a[3];
-
-                a[4] = 'h';
             }
 
             sparse_array(sparse_array const &other) = default;
