@@ -1,0 +1,14 @@
+set(
+    INCLUDES
+        ${CMAKE_CURRENT_LIST_DIR}/entity.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/registry.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/sparse_array.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/zipper.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/zipper_iterator.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/indexed_zipper.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/indexed_zipper_iterator.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/is_sparse_array.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/exceptions/component_not_registered_exception.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/exceptions/component_already_registered_exception.hpp
+        PARENT_SCOPE
+)
