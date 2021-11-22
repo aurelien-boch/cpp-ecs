@@ -7,7 +7,7 @@ jobs:
       - name: "Install valgrind"
         run: "sudo apt-get install valgrind"
       - name: "Setup CMake project"
-        run: "cmake -B build/ -S . -DCMAKE_BUILD_TYPE=Debug -DTEST_ENABLE=yes"
+        run: "cmake -B build/ -S . --config Debug -DTEST_ENABLE=yes"
       - name: "Build"
         run: "cmake --build build/ --parallel"
       - name: "Start unit tests"
