@@ -29,15 +29,14 @@ namespace ecs::exceptions
     {
         #if defined(__GNUC__)
             int status;
-            std::unique_ptr<char> realName(
-                abi::__cxa_demangle(
+                auto realName = abi::__cxa_demangle(
                     index.name(),
                     nullptr,
                     nullptr,
-                    &status)
-            );
+                    &status);
 
-            std::string res(realName.get());
+                std::string res(realName);
+                std::free(realName);
         #else
             std::string res(index.name());
         #endif
