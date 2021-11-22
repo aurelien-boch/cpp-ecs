@@ -5,7 +5,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: "Setup CMake project"
-        run: "cmake -B build/ -S . -DCMAKE_BUILD_TYPE=Debug -DTEST_ENABLE=yes -DCMAKE_CXX_FLAGS=\"-fsanitize=address;-fno-sanitize-recover=all\""
+        run: "cmake -B build/ -S . -DCMAKE_BUILD_TYPE=Debug -DTEST_ENABLE=yes -DCMAKE_CXX_FLAGS=\"-fsanitize=address -fno-sanitize-recover=all\""
       - name: "Build"
         run: "cmake --build build/ --parallel"
       - name: "Start"
