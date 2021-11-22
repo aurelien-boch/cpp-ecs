@@ -32,7 +32,10 @@ namespace ecs::containers
 
             sparse_array():
                 _data{}
-            {}
+            {
+                int k = 0x7fffffff;
+                k += 10;
+            }
 
             sparse_array(sparse_array const &other) = default;
 
