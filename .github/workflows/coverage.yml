@@ -13,4 +13,4 @@ jobs:
       - name: "Start unit tests"
         run: "./build/tests/libecs_tests"
       - name: "Get coverage"
-        run: "gcovr ."
+        run: "gcovr . && gcovr . -b"
