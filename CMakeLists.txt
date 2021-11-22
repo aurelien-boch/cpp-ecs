@@ -11,7 +11,7 @@ endif()
 
 if(DEFINED COVERAGE_ENABLE AND "${COVERAGE_ENABLE}" STREQUAL "yes")
     message(STATUS "Coverage enabled")
-    list(APPEND COMPILE_FLAGS -fprofile-arcs -ftest-coverage)
+    list(APPEND COMPILE_FLAGS -lgcov -ftest-coverage -O0)
 endif()
 
 set(LIB_NAME ecs)
