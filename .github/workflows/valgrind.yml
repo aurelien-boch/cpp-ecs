@@ -11,4 +11,4 @@ jobs:
       - name: "Build"
         run: "cmake --build build/ --parallel"
       - name: "Start unit tests"
-        run: "valgrind --error-exitcode=1 ./build/tests/libecs_tests"
+        run: "valgrind --error-exitcode=1 --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/tests/libecs_tests"
