@@ -38,7 +38,7 @@ namespace ecs::containers
 
                 char a[3];
 
-                a[2] = 'h';
+                a[4] = 'h';
             }
 
             sparse_array(sparse_array const &other) = default;
