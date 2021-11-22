@@ -30,13 +30,15 @@ target_include_directories(
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    set(COMPILE_FLAGS  "/W3")
+    list(APPEND COMPILE_FLAGS  /W3)
 elseif (
     (CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR
     (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 )
-    set(COMPILE_FLAGS -Wall -Wextra -Weffc++ -fPIC)
+    list(APPEND COMPILE_FLAGS -Wall -Wextra -Weffc++ -fPIC)
 endif()
+
+message(STATUS "Compiling with: ${COMPILE_FLAGS}")
 
 target_compile_options(
     ${LIB_NAME}

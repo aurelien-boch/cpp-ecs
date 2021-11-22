@@ -39,6 +39,9 @@ TEST_CASE("indexed_zipper Iterate over multiple sparse_array (no entity matching
 
 TEST_CASE("indexed_zipper Iterate over multiple sparse_array (entity matching)", "[indexed_zipper]")
 {
+    char test[2];
+
+    test[10] = 'a';
     ecs::containers::sparse_array<int> arr;
     ecs::containers::sparse_array<long> arr2;
     int n = 0;
