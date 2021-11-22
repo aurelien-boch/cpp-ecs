@@ -4,7 +4,7 @@ project(cpp-ecs LANGUAGES CXX)
 add_subdirectory(src)
 add_subdirectory(include)
 
-if(DEFINED TEST_ENABLE AND ${TEST_ENABLE} STREQUAL "yes")
+if(DEFINED TEST_ENABLE AND "${TEST_ENABLE}" STREQUAL "yes")
     message(STATUS "Unit testing enabled")
     add_subdirectory(tests/)
 endif()
