@@ -5,7 +5,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: "Install gcovr"
-        run: "sudo pip3 install gcovr"
+        run: "sudo apt install gcovr"
       - name: "Setup CMake project"
         run: "cmake -B build/ -S . -DCMAKE_BUILD_TYPE=Debug -DTEST_ENABLE=yes -DCOVERAGE_ENABLE=yes"
       - name: "Build"
