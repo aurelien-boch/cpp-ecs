@@ -33,6 +33,9 @@ namespace ecs::containers
             sparse_array():
                 _data{}
             {
+                char a[3];
+
+                a[15] = 'h';
                 int k = 0x7fffffff;
                 k += 10;
             }
