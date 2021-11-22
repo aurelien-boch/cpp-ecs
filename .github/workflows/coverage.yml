@@ -12,7 +12,5 @@ jobs:
         run: "cmake --build build/ --parallel"
       - name: "Start unit tests"
         run: "./build/tests/libecs_tests"
-      - name: "Start coverage"
-        run: |
-          "gcovr ."
-          "gcovr . -b"
+      - name: "Get coverage"
+        run: "gcovr ."
