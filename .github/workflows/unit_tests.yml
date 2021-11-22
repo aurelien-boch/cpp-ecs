@@ -1,0 +1,19 @@
+on: [ push, pull_request ]
+jobs:
+  unit_tests:
+    strategy:
+      matrix:
+        os: [ "ubuntu-latest", "windows-latest" ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Setup CMake project"
+        run: "cmake -B build/ -S . -DCMAKE_BUILD_TYPE=Release"
+      - name: "Build"
+        run: "cmake --build build/ --parallel"
+      - if: matrix.os == 'ubuntu-latest'
+        name: "Run UT (ubuntu)"
+        run: "./build/tests/libecs_tests"
+      - if: matrix.os == 'windows-latest'
+        name: "Run UT (windows)"
+        run: "./build/tests/libecs_tests"
