@@ -9,6 +9,11 @@ if(DEFINED TEST_ENABLE AND "${TEST_ENABLE}" STREQUAL "yes")
     add_subdirectory(tests/)
 endif()
 
+if(DEFINED COVERAGE_ENABLE AND "${COVERAGE_ENABLE}" STREQUAL "yes")
+    message(STATUS "Coverage enabled")
+    list(APPEND COMPILE_FLAGS -fprofile-arcs -ftest-coverage)
+endif()
+
 set(LIB_NAME ecs)
 
 add_library(
