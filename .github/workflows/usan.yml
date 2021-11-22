@@ -1,0 +1,12 @@
+on: [ push, pull_request ]
+jobs:
+  unit_tests:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Setup CMake project"
+        run: "cmake -B build/ -S . -DCMAKE_BUILD_TYPE=Debug -DTEST_ENABLE=yes -DCMAKE_CXX_FLAGS=-fsanitize=undefined"
+      - name: "Build"
+        run: "cmake --build build/ --parallel"
+      - name: "Start"
+        run: "./build/tests/libecs_tests"
