@@ -1,7 +1,6 @@
 #ifndef COMPONENT_ALREADY_REGISTERED_EXCEPTION_HPP
 #define COMPONENT_ALREADY_REGISTERED_EXCEPTION_HPP
 
-
 #include <exception>
 #include <string>
 #include <typeindex>
