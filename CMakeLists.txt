@@ -9,12 +9,9 @@ if(DEFINED TEST_ENABLE AND "${TEST_ENABLE}" STREQUAL "yes")
     add_subdirectory(tests/)
 endif()
 
-if(DEFINED COVERAGE_ENABLE AND "${COVERAGE_ENABLE}" STREQUAL "yes")
-    message(STATUS "Coverage enabled")
-    list(APPEND COMPILE_FLAGS -lgcov -ftest-coverage -O0)
-endif()
-
 set(LIB_NAME ecs)
+set(COMPILE_FLAGS)
+set(LINK_LIBS)
 
 add_library(
     ${LIB_NAME}
@@ -43,10 +40,22 @@ elseif (
     list(APPEND COMPILE_FLAGS -Wall -Wextra -Weffc++ -fPIC)
 endif()
 
+if(DEFINED COVERAGE_ENABLE AND "${COVERAGE_ENABLE}" STREQUAL "yes")
+    message(STATUS "Coverage enabled")
+    list(APPEND COMPILE_FLAGS -O0 -fprofile-arcs -ftest-coverage)
+    list(APPEND LINK_LIBS gcov)
+endif()
+
 message(STATUS "Compiling with: ${COMPILE_FLAGS}")
 
 target_compile_options(
     ${LIB_NAME}
         PRIVATE
         ${COMPILE_FLAGS}
+)
+
+target_link_libraries(
+    ${LIB_NAME}
+        PRIVATE
+        ${LINK_LIBS}
 )
