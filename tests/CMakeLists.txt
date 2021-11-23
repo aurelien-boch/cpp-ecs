@@ -9,6 +9,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
+set(LINK_LIBS Catch2::Catch2WithMain ecs)
+set(COMPILE_OPTIONS)
+
+if(DEFINED COVERAGE_ENABLE AND "${COVERAGE_ENABLE}" STREQUAL "yes")
+    list(APPEND LINK_LIBS gcov)
+    list(APPEND COMPILE_OPTIONS --coverage)
+endif()
+
 add_executable(
     libecs_tests
         TestRegistryEntities.cpp
@@ -21,8 +29,13 @@ add_executable(
 
 target_link_libraries(
     libecs_tests
-        Catch2::Catch2WithMain
-        ecs
+        ${LINK_LIBS}
+)
+
+target_compile_options(
+    libecs_tests
+        PRIVATE
+        ${COMPILE_OPTIONS}
 )
 
 set_target_properties(
