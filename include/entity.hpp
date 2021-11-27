@@ -3,6 +3,12 @@
 
 #include <cstdlib>
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs
 {
     class registry;
@@ -17,17 +23,17 @@ namespace ecs
         public:
             friend registry;
 
-            entity(entity const &other) noexcept = default;
-            entity(entity &&other) noexcept = default;
-            entity &operator=(entity const &other) noexcept = default;
-            entity &operator=(entity &&other) noexcept= default;
+            ExportSymbol entity(entity const &other) noexcept = default;
+            ExportSymbol entity(entity &&other) noexcept = default;
+            ExportSymbol entity &operator=(entity const &other) noexcept = default;
+            ExportSymbol entity &operator=(entity &&other) noexcept= default;
 
-            ~entity() = default;
+            ExportSymbol ~entity() = default;
 
-            operator std::size_t() const noexcept;
+            ExportSymbol operator std::size_t() const noexcept;
 
         private:
-            explicit entity(std::size_t id) noexcept;
+            ExportSymbol explicit entity(std::size_t id) noexcept;
 
             std::size_t _id;
     };

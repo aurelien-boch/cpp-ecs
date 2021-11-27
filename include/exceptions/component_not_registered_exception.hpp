@@ -8,6 +8,12 @@
 #include <any>
 #include <vector>
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs::exceptions
 {
     /**
@@ -27,12 +33,12 @@ namespace ecs::exceptions
             /**
              * @brief Returns a C-style character string describing the general cause of the current error.
              */
-            [[nodiscard]] const char *what() const noexcept override;
+            [[nodiscard]] ExportSymbol const char *what() const noexcept override;
 
-            ~component_not_registered_exception() override = default;
+            ExportSymbol ~component_not_registered_exception() override = default;
 
         private:
-            static std::string _getName(std::type_index const &index);
+            ExportSymbol static std::string _getName(std::type_index const &index);
 
             std::string _errorMessage{};
     };

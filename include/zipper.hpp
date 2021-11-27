@@ -9,6 +9,12 @@
 #include "is_sparse_array.hpp"
 #include "zipper_iterator.hpp"
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs::containers
 {
     /**
@@ -32,7 +38,7 @@ namespace ecs::containers
              * @param [in | out] cs This parameter refers to the sparse_array containing the component you specified in
              * template.
              */
-            explicit zipper(Containers &... cs) :
+            ExportSymbol explicit zipper(Containers &... cs) :
                 _size(_computeSize(cs...)),
                 _begin(cs.begin()...),
                 _end(_compute_end(cs..., _size))
@@ -42,7 +48,7 @@ namespace ecs::containers
              * @brief This method returns a zipper_iterator referring to the beginning of all SparseArrays.
              * @return iterator.
              */
-            [[nodiscard]] iterator begin() noexcept
+            [[nodiscard]] ExportSymbol iterator begin() noexcept
             {
                 return iterator(_begin, _size);
             }
@@ -51,7 +57,7 @@ namespace ecs::containers
              * @brief This method returns a zipper_iterator referring to the end of all SparseArrays.
              * @return iterator.
              */
-            [[nodiscard]] iterator end() noexcept
+            [[nodiscard]] ExportSymbol iterator end() noexcept
             {
                 return iterator(_end, 0);
             }
@@ -63,14 +69,14 @@ namespace ecs::containers
 
             iterator_tuple _end;
 
-            [[nodiscard]] static size_t _computeSize(Containers &... containers)
+            [[nodiscard]] ExportSymbol static size_t _computeSize(Containers &... containers)
             {
                 return (std::min)(
                     { containers.size()... }
                );
             }
 
-            [[nodiscard]] static iterator_tuple _compute_end(Containers &... containers, std::size_t minSize)
+            [[nodiscard]] ExportSymbol static iterator_tuple _compute_end(Containers &... containers, std::size_t minSize)
             {
                 return std::tuple((containers.begin() + minSize)...);
             }

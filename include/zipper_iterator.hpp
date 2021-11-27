@@ -4,6 +4,12 @@
 #include <tuple>
 #include <optional>
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs::containers
 {
     template<class ...T>
@@ -36,13 +42,13 @@ namespace ecs::iterators
 
             friend ecs::containers::zipper<Containers ...>;
 
-            zipper_iterator(zipper_iterator const &z) noexcept :
+            ExportSymbol zipper_iterator(zipper_iterator const &z) noexcept :
                 _max(z._max),
                 _idx(z._idx),
                 _current(z._current)
             {}
 
-            const zipper_iterator &operator++() //TODO fix this magic
+            ExportSymbol const zipper_iterator &operator++() //TODO fix this magic
             {
                 if (_max == 0)
                     return (*this);
@@ -62,29 +68,29 @@ namespace ecs::iterators
                 return (*this);
             }
 
-            zipper_iterator operator++(int)
+            ExportSymbol zipper_iterator operator++(int)
             {
                 zipper_iterator<Containers...> old = *this;
                 operator++();
                 return (old);
             }
 
-            value_type operator*()
+            ExportSymbol value_type operator*()
             {
                 return (_toValue(_seq));
             }
 
-            value_type operator->()
+            ExportSymbol value_type operator->()
             {
                 return (_toValue(_seq));
             }
 
-            friend inline bool operator==(zipper_iterator const &lhs, zipper_iterator const &rhs)
+            ExportSymbol friend inline bool operator==(zipper_iterator const &lhs, zipper_iterator const &rhs)
             {
                 return ((lhs._max - lhs._idx) == (rhs._max - rhs._idx));
             }
 
-            friend inline bool operator!=(zipper_iterator const &lhs, zipper_iterator const &rhs)
+            ExportSymbol friend inline bool operator!=(zipper_iterator const &lhs, zipper_iterator const &rhs)
             {
                 return ((lhs._max - lhs._idx) != (rhs._max - rhs._idx));
             }
@@ -100,24 +106,24 @@ namespace ecs::iterators
             static constexpr std::index_sequence_for<Containers ...> _seq{};
 
             template<size_t ... Is>
-            void _incrAll(std::index_sequence<Is ...>)
+            ExportSymbol void _incrAll(std::index_sequence<Is ...>)
             {
                 ((++std::get<Is>(_current)), ...);
             }
 
             template<size_t ... Is>
-            [[nodiscard]] bool _allSet(std::index_sequence<Is ...>)
+            [[nodiscard]] ExportSymbol bool _allSet(std::index_sequence<Is ...>)
             {
                 return (((*std::get<Is>(_current)) != std::nullopt) && ...);
             }
 
             template<size_t ... Is>
-            [[nodiscard]] value_type _toValue(std::index_sequence<Is ...>)
+            [[nodiscard]] ExportSymbol value_type _toValue(std::index_sequence<Is ...>)
             {
                 return std::tie(std::get<Is>(_current)->value()...);
             }
 
-            zipper_iterator(iterator_tuple const &it_tuple, std::size_t max) :
+            ExportSymbol zipper_iterator(iterator_tuple const &it_tuple, std::size_t max) :
                 _current(it_tuple),
                 _max(max)
             {

@@ -7,6 +7,12 @@
 #include <any>
 #include <vector>
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs::exceptions
 {
     /**
@@ -19,19 +25,19 @@ namespace ecs::exceptions
              * @param [in] component This parameter refers to the component that was called.
              * @param [in] registeredComponents This parameter refers to a vector of all registered components.
              */
-            component_already_registered_exception(
+            ExportSymbol component_already_registered_exception(
                 std::type_info const &component,
                 std::vector<std::type_index> const &registeredComponents);
 
             /**
              * @brief Returns a C-style character string describing the general cause of the current error.
              */
-            [[nodiscard]] const char *what() const noexcept override;
+            [[nodiscard]] ExportSymbol const char *what() const noexcept override;
 
             ~component_already_registered_exception() override = default;
 
         private:
-            static std::string _getName(std::type_index const &index);
+            ExportSymbol static std::string _getName(std::type_index const &index);
 
             std::string _errorMessage{};
     };

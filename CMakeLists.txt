@@ -14,7 +14,7 @@ set(COMPILE_FLAGS)
 set(LINK_LIBS)
 
 add_library(
-    ${LIB_NAME}
+    ${LIB_NAME} SHARED
         ${SRCS}
         ${INCLUDES}
 )

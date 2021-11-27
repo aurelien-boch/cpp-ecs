@@ -15,6 +15,12 @@
 
 //TODO unregister systems and components from the registry
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs
 {
     /**
@@ -24,14 +30,14 @@ namespace ecs
     class registry
     {
         public:
-            registry() noexcept;
+            ExportSymbol registry() noexcept;
 
             /**
              * @brief This method creates an entity. When entity is about to get destroyed,
              * kill_entity must be called.
              * @return The created entity.
              */
-            entity spawn_entity() noexcept;
+            ExportSymbol entity spawn_entity() noexcept;
 
             /**
              * @brief This method created an entity from the given index.
@@ -41,13 +47,13 @@ namespace ecs
              * @throw May throw a runtime_error "entity already spawned." if the given index is an already spawned
              * entity.
              */
-            entity entity_from_index(std::size_t index);
+            ExportSymbol entity entity_from_index(std::size_t index);
 
             /**
              * @brief This methods kills the given entity.
              * @param [in] e This parameter refers to the entity to kill.
              */
-            void kill_entity(entity const &e) noexcept;
+            ExportSymbol void kill_entity(entity const &e) noexcept;
 
             /**
              * @brief This method adds a component to the given entity.
@@ -59,7 +65,7 @@ namespace ecs
              * the method will throw a component_not_registered_exception.
              */
             template <typename Component>
-            typename containers::sparse_array<Component>::reference_type add_component(
+            ExportSymbol typename containers::sparse_array<Component>::reference_type add_component(
                 entity const &entity,
                 Component &&value)
             {
@@ -85,7 +91,7 @@ namespace ecs
              * component_not_registered_exception
              */
             template <typename Component, typename ... Params>
-            typename containers::sparse_array<Component>::reference_type emplace_component(
+            ExportSymbol typename containers::sparse_array<Component>::reference_type emplace_component(
                 entity const &entity,
                 Params &&... p)
             {
@@ -107,7 +113,7 @@ namespace ecs
              * component_not_registered_exception
              */
             template <typename Component>
-            void remove_component(entity const &entity)
+            ExportSymbol void remove_component(entity const &entity)
             {
                 try {
                     auto res = _components.at(std::type_index(typeid(Component)));
@@ -125,7 +131,7 @@ namespace ecs
              * @throw todo, then
              */
             template <class Component>
-            containers::sparse_array<Component> &register_component()
+            ExportSymbol containers::sparse_array<Component> &register_component()
             {
                  auto [it, res] = _components.try_emplace(
                     std::type_index(std::type_index(typeid(Component))),
@@ -151,7 +157,7 @@ namespace ecs
              * component_not_registered_exception
              */
             template <class Component>
-            [[nodiscard]] containers::sparse_array<Component> &get_component()
+            [[nodiscard]] ExportSymbol containers::sparse_array<Component> &get_component()
             {
                 try {
                     auto &component = _components.at(std::type_index(typeid(Component)));
@@ -170,7 +176,7 @@ namespace ecs
              * component_not_registered_exception
              */
             template <class Component>
-            [[nodiscard]] containers::sparse_array<Component> const &get_component() const
+            [[nodiscard]] ExportSymbol containers::sparse_array<Component> const &get_component() const
             {
                 try {
                     auto const &component = _components.at(std::type_index(typeid(Component)));
@@ -188,7 +194,7 @@ namespace ecs
              * @param [in] f This parameter refers to an rvalue reference to the system.
              */
             template <class ... Components, typename Function>
-            void add_system(Function &&f) noexcept
+            ExportSymbol void add_system(Function &&f) noexcept
             {
                 _systems.emplace_back([f = std::forward<Function>(f)](registry &r, double deltaTime) {
                     f(r, deltaTime, r.get_component<Components>()...);
@@ -202,7 +208,7 @@ namespace ecs
              * @param [in] f This parameter refers to an reference to the system.
              */
             template <class ... Components , typename Function>
-            void add_system(Function const &f) noexcept
+            ExportSymbol void add_system(Function const &f) noexcept
             {
                 _systems.emplace_back([f](registry &r, double deltaTime) {
                     f(r, deltaTime, r.get_component<Components>()...);
@@ -212,7 +218,7 @@ namespace ecs
             /**
              * @brief This method runs all systems registered into the registry.
              */
-            void run_systems(double deltaTime);
+            ExportSymbol void run_systems(double deltaTime);
 
         private:
             using entity_eraser = std::function<void (registry &, entity const &)>;
@@ -229,7 +235,7 @@ namespace ecs
             std::vector<std::size_t> _freedEntities{};
 
             template <class Component>
-            [[nodiscard]] exceptions::component_not_registered_exception _generate_component_not_registered() const
+            [[nodiscard]] ExportSymbol exceptions::component_not_registered_exception _generate_component_not_registered() const
             {
                 std::vector<std::type_index> indexes;
 
@@ -242,7 +248,7 @@ namespace ecs
             }
 
             template <class Component>
-            [[nodiscard]] exceptions::component_already_registered_exception _generate_component_already_registered() const
+            [[nodiscard]] ExportSymbol exceptions::component_already_registered_exception _generate_component_already_registered() const
             {
                 std::vector<std::type_index> indexes;
 

@@ -6,6 +6,12 @@
 #include <algorithm>
 #include <stdexcept>
 
+#ifdef WIN32
+    #define ExportSymbol   __declspec( dllexport )
+#else
+    #define ExportSymbol
+#endif
+
 namespace ecs::containers
 {
     /**
@@ -30,26 +36,26 @@ namespace ecs::containers
 
             using const_iterator = typename container_type::const_iterator;
 
-            sparse_array():
+            ExportSymbol sparse_array():
                 _data{}
             {}
 
-            sparse_array(sparse_array const &other) = default;
+            ExportSymbol sparse_array(sparse_array const &other) = default;
 
-            sparse_array(sparse_array &&other) noexcept = default;
+            ExportSymbol sparse_array(sparse_array &&other) noexcept = default;
 
-            ~sparse_array() = default;
+            ExportSymbol ~sparse_array() = default;
 
-            sparse_array &operator=(sparse_array const &other) = default;
+            ExportSymbol sparse_array &operator=(sparse_array const &other) = default;
 
-            sparse_array &operator=(sparse_array &&other) noexcept = default;
+            ExportSymbol sparse_array &operator=(sparse_array &&other) noexcept = default;
 
-            [[nodiscard]] reference_type operator[](size_t index)
+            [[nodiscard]] ExportSymbol reference_type operator[](size_t index)
             {
                 return _data[index];
             }
 
-            [[nodiscard]] const_reference_type operator[](size_t index) const
+            [[nodiscard]] ExportSymbol const_reference_type operator[](size_t index) const
             {
                 return _data[index];
             }
@@ -57,7 +63,7 @@ namespace ecs::containers
             /**
              * @brief This method returns an iterator to the beginning of the internal vector.
              */
-            [[nodiscard]] iterator begin()
+            [[nodiscard]] ExportSymbol iterator begin()
             {
                 return _data.begin();
             }
@@ -65,7 +71,7 @@ namespace ecs::containers
             /**
              * @brief This method returns a const iterator to the beginning of the internal vector.
              */
-            [[nodiscard]] const_iterator begin() const
+            [[nodiscard]] ExportSymbol const_iterator begin() const
             {
                 return _data.begin();
             }
@@ -73,7 +79,7 @@ namespace ecs::containers
             /**
              * @brief This method returns a const iterator to the beginning of the internal vector.
              */
-            [[nodiscard]] const_iterator cbegin() const
+            [[nodiscard]] ExportSymbol const_iterator cbegin() const
             {
                 return _data.cbegin();
             }
@@ -81,7 +87,7 @@ namespace ecs::containers
             /**
              * @brief This method returns an iterator to the end of the internal vector.
              */
-            [[nodiscard]] iterator end()
+            [[nodiscard]] ExportSymbol iterator end()
             {
                 return _data.end();
             }
@@ -89,7 +95,7 @@ namespace ecs::containers
             /**
              * @brief This method returns a const iterator to the end of the internal vector.
              */
-            [[nodiscard]] const_iterator end() const
+            [[nodiscard]] ExportSymbol const_iterator end() const
             {
                 return _data.end();
             }
@@ -97,7 +103,7 @@ namespace ecs::containers
             /**
              * @brief This method returns a const iterator to the end of the internal vector.
              */
-            [[nodiscard]] const_iterator cend() const
+            [[nodiscard]] ExportSymbol const_iterator cend() const
             {
                 return _data.cend();
             }
@@ -106,7 +112,7 @@ namespace ecs::containers
              * @brief This method returns the size of the sparse_array.
              * @return The size of the sparse_array as a ContainerSizeType.
              */
-            [[nodiscard]] size_type size() const
+            [[nodiscard]] ExportSymbol size_type size() const
             {
                 return _data.size();
             }
@@ -118,7 +124,7 @@ namespace ecs::containers
              * @param component The value to assign to the component.
              * @return A reference to the element stored in the sparse array.
              */
-            reference_type insert_at(size_type pos, Component const &component)
+            ExportSymbol reference_type insert_at(size_type pos, Component const &component)
             {
                 if (pos >= _data.size())
                     _data.resize(pos + 1);
@@ -133,7 +139,7 @@ namespace ecs::containers
              * @param component The value to assign to the component.
              * @return A reference to the element stored in the sparse array.
              */
-            reference_type insert_at(size_type pos, Component &&component)
+            ExportSymbol reference_type insert_at(size_type pos, Component &&component)
             {
                 if (pos >= _data.size())
                     _data.resize(pos + 1);
@@ -149,7 +155,7 @@ namespace ecs::containers
              * @return A reference to the element stored in the sparse array.
              */
             template<class ... Params>
-            reference_type emplace_at(size_type pos, Params &&...parameters)
+            ExportSymbol reference_type emplace_at(size_type pos, Params &&...parameters)
             {
                 auto allocator = _data.get_allocator();
                 using traits = std::allocator_traits<decltype(allocator)>;
@@ -165,7 +171,7 @@ namespace ecs::containers
              * @brief This method erases an element from the sparse_array.
              * @param [in] pos The position of the element to erase.
              */
-            void erase(size_type pos)
+            ExportSymbol void erase(size_type pos)
             {
                 _data.erase(pos);
             }
@@ -176,7 +182,7 @@ namespace ecs::containers
              * @return The index of the component. Returns -1 if the component is not found.
              * @throw If value is not found, method throws an std::out_of_range
              */
-            size_type getIndex(value_type const &val) const
+            ExportSymbol size_type getIndex(value_type const &val) const
             {
                 auto const &it = std::find_if(_data.begin(),  _data.end(), [&val] (value_type const &needle) {
                     return (std::addressof(val) == std::addressof(needle));
