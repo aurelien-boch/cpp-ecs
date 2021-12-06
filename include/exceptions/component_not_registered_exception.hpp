@@ -8,7 +8,7 @@
 #include <any>
 #include <vector>
 
-#include "_internal.hpp"
+#include "../_internal.hpp"
 
 namespace ecs::exceptions
 {

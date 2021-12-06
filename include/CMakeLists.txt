@@ -1,5 +1,6 @@
 set(
     INCLUDES
+        ${CMAKE_CURRENT_LIST_DIR}/_internal.hpp
         ${CMAKE_CURRENT_LIST_DIR}/entity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/registry.hpp
         ${CMAKE_CURRENT_LIST_DIR}/sparse_array.hpp
