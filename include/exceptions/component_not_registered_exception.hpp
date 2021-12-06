@@ -8,11 +8,7 @@
 #include <any>
 #include <vector>
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
+#include "_internal.hpp"
 
 namespace ecs::exceptions
 {
@@ -26,7 +22,7 @@ namespace ecs::exceptions
              * @param [in] component This parameter refers to the component that was called.
              * @param [in] registeredComponents This parameter refers to a vector of all registered components.
              */
-            component_not_registered_exception(
+            ExportSymbol component_not_registered_exception(
                 std::type_info const &component,
                 std::vector<std::type_index> const &registeredComponents);
 
@@ -38,7 +34,7 @@ namespace ecs::exceptions
             ExportSymbol ~component_not_registered_exception() override = default;
 
         private:
-            ExportSymbol static std::string _getName(std::type_index const &index);
+            static ExportSymbol std::string _getName(std::type_index const &index);
 
             std::string _errorMessage{};
     };

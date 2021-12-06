@@ -31,12 +31,11 @@ target_include_directories(
         include/
 )
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    list(APPEND COMPILE_FLAGS  /W3)
-elseif (
-    (CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR
-    (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-)
+if(WIN32)
+    list(APPEND COMPILE_FLAGS /W3)
+    set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+elseif (UNIX)
     list(APPEND COMPILE_FLAGS -Wall -Wextra -Weffc++ -fPIC)
 endif()
 

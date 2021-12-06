@@ -5,12 +5,8 @@
 #include <optional>
 #include <algorithm>
 #include <stdexcept>
+#include "_internal.hpp"
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
 
 namespace ecs::containers
 {

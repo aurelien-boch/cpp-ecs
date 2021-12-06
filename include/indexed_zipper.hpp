@@ -2,12 +2,7 @@
 #define INDEXED_ZIPPER_HPP
 
 #include "indexed_zipper_iterator.hpp"
-
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
+#include "_internal.hpp"
 
 namespace ecs::containers
 {
@@ -44,7 +39,7 @@ namespace ecs::containers
              * @brief This method returns an indexed_zipper_iterator referring to the beginning of all SparseArrays.
              * @return iterator.
              */
-            ExportSymbol [[nodiscard]] iterator begin()
+            [[nodiscard]] ExportSymbol iterator begin()
             {
                 return iterator(_begin, _size);
             }
@@ -53,7 +48,7 @@ namespace ecs::containers
              * @brief This method returns an indexed_zipper_iterator referring to the end of all SparseArrays.
              * @return iterator.
              */
-            ExportSymbol [[nodiscard]] iterator end()
+            [[nodiscard]] ExportSymbol iterator end()
             {
                 return iterator(_end, 0);
             }
@@ -65,14 +60,14 @@ namespace ecs::containers
 
             iterator_tuple _end;
 
-            ExportSymbol [[nodiscard]] static size_t _compute_size(Containers &... containers)
+            [[nodiscard]] static ExportSymbol size_t _compute_size(Containers &... containers)
             {
                 return std::min(
                     { containers.size()... }
                 );
             }
 
-            ExportSymbol [[nodiscard]] static iterator_tuple _compute_end(Containers &... containers, std::size_t minSize)
+            [[nodiscard]] static ExportSymbol iterator_tuple _compute_end(Containers &... containers, std::size_t minSize)
             {
                 return std::tuple((containers.begin() + minSize)...);
             }

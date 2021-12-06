@@ -3,11 +3,7 @@
 
 #include <cstdlib>
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
+#include "_internal.hpp"
 
 namespace ecs
 {

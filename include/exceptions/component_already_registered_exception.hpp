@@ -6,12 +6,7 @@
 #include <typeindex>
 #include <any>
 #include <vector>
-
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
+#include "_internal.hpp"
 
 namespace ecs::exceptions
 {
@@ -34,10 +29,10 @@ namespace ecs::exceptions
              */
             [[nodiscard]] ExportSymbol const char *what() const noexcept override;
 
-            ~component_already_registered_exception() override = default;
+            ExportSymbol ~component_already_registered_exception() override = default;
 
         private:
-            ExportSymbol static std::string _getName(std::type_index const &index);
+            static ExportSymbol std::string _getName(std::type_index const &index);
 
             std::string _errorMessage{};
     };

@@ -12,14 +12,10 @@
 #include "sparse_array.hpp"
 #include "entity.hpp"
 #include "exceptions/component_not_registered_exception.hpp"
+#include "_internal.hpp"
 
 //TODO unregister systems and components from the registry
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
 
 namespace ecs
 {

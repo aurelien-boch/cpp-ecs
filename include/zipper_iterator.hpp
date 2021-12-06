@@ -4,11 +4,7 @@
 #include <tuple>
 #include <optional>
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
+#include "_internal.hpp"
 
 namespace ecs::containers
 {
@@ -26,11 +22,11 @@ namespace ecs::iterators
     template<class ...Containers>
     class zipper_iterator
     {
-            template<class Container>
-            using iterator_t = typename Container::iterator;
+        template<class Container>
+        using iterator_t = typename Container::iterator;
 
-            template<class Container>
-            using it_reference_t = decltype(std::declval<typename iterator_t<Container>::reference>().value());
+        template<class Container>
+        using it_reference_t = decltype(std::declval<typename iterator_t<Container>::reference>().value());
 
         public:
             using value_type = std::tuple<it_reference_t<Containers>...>;

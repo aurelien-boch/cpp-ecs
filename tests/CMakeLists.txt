@@ -43,3 +43,7 @@ set_target_properties(
         PROPERTIES
         CXX_STANDARD 17
 )
+
+add_custom_command(TARGET libecs_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ecs> $<TARGET_FILE_DIR:libecs_tests>
+)

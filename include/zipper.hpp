@@ -6,14 +6,11 @@
 #endif 
 
 #include <algorithm>
+
 #include "is_sparse_array.hpp"
 #include "zipper_iterator.hpp"
+#include "_internal.hpp"
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
 
 namespace ecs::containers
 {

@@ -2,13 +2,10 @@
 #define INDEXED_ZIPPER_ITERATOR_HPP
 
 #include <algorithm>
-#include "is_sparse_array.hpp"
 
-#ifdef WIN32
-    #define ExportSymbol   __declspec( dllexport )
-#else
-    #define ExportSymbol
-#endif
+#include "is_sparse_array.hpp"
+#include "_internal.hpp"
+
 
 namespace ecs::containers
 {
@@ -117,13 +114,13 @@ namespace ecs::iterators
             }
 
             template<size_t ... Is>
-            ExportSymbol [[nodiscard]] bool _all_set(std::index_sequence<Is ...>)
+            [[nodiscard]] ExportSymbol bool _all_set(std::index_sequence<Is ...>)
             {
                 return (((*std::get<Is>(_current)) != std::nullopt) && ...);
             }
 
             template<size_t ... Is>
-            ExportSymbol [[nodiscard]] value_type _to_value(std::index_sequence<Is ...>)
+            [[nodiscard]] ExportSymbol value_type _to_value(std::index_sequence<Is ...>)
             {
                 return std::tie(_idx, std::get<Is>(_current)->value()...);
             }
