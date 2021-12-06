@@ -33,7 +33,7 @@ namespace ecs
              * kill_entity must be called.
              * @return The created entity.
              */
-            ExportSymbol entity spawn_entity() noexcept;
+            [[nodiscard]] ExportSymbol entity spawn_entity() noexcept;
 
             /**
              * @brief This method created an entity from the given index.
@@ -177,7 +177,7 @@ namespace ecs
                 try {
                     auto const &component = _components.at(std::type_index(typeid(Component)));
 
-                    return std::any_cast<containers::sparse_array<Component> &>(component.first);
+                    return std::any_cast<containers::sparse_array<Component> const &>(component.first);
                 } catch (std::out_of_range &) {
                     throw _generate_component_not_registered<Component>();
                 }

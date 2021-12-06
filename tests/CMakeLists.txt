@@ -21,10 +21,6 @@ add_executable(
     libecs_tests
         TestRegistryEntities.cpp
         TestRegistryComponents.cpp
-        TestRegistrySystems.cpp
-        TestSparseArray.cpp
-        TestZipper.cpp
-        TestIndexedZipper.cpp
 )
 
 target_link_libraries(
