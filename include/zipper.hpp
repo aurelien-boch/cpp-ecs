@@ -2,8 +2,10 @@
 #define ZIPPER_HPP
 
 #ifdef _WIN32
-#define NOMINMAX
-#endif 
+    #ifndef NOMINMAX
+        #define NOMINMAX
+    #endif
+#endif
 
 #include <algorithm>
 
