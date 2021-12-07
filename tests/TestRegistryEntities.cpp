@@ -53,3 +53,26 @@ TEST_CASE("Generate entity from index, already spawned entity", "[Registry Entit
 
     REQUIRE_THROWS_AS(registry.entity_from_index(0), std::runtime_error);
 }
+
+TEST_CASE("Generate entity from index, already freed entity", "[Registry Entities]")
+{
+    ecs::registry registry;
+    auto entity = registry.spawn_entity();
+
+    registry.kill_entity(entity);
+    REQUIRE(registry.entity_from_index(0) == 0);
+}
+
+TEST_CASE("Clean sparse array when entity destroyed", "[Registry Entities]")
+{
+    ecs::registry registry;
+    auto entity = registry.spawn_entity();
+
+    registry.register_component<int>();
+    auto &component = registry.get_component<int>();
+
+    registry.emplace_component<int>(entity, 150);
+    REQUIRE(component[entity] == 150);
+    registry.kill_entity(entity);
+    REQUIRE(component[entity] == std::nullopt);
+}

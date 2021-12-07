@@ -7,6 +7,12 @@ struct velocityComponent
     int y;
 };
 
+struct positionComponent
+{
+    int x;
+    int y;
+};
+
 TEST_CASE("Add not registered component to entity", "[Registry Components]")
 {
     ecs::registry r;
@@ -21,7 +27,9 @@ TEST_CASE("Add component to entity", "[Registry Components]")
     auto entity = r.spawn_entity();
 
     r.register_component<velocityComponent>();
-    r.add_component<velocityComponent>(entity, {});
+    r.add_component<velocityComponent>(entity, {1, 4});
+    auto &component = r.get_component<velocityComponent>();
+    REQUIRE((component[entity]->x == 1 && component[entity]->y == 4));
 }
 
 TEST_CASE("Emplace not registered component to entity", "[Registry Components]")
@@ -38,7 +46,9 @@ TEST_CASE("Emplace component to entity", "[Registry Components]")
     auto entity = r.spawn_entity();
 
     r.register_component<velocityComponent>();
-    r.emplace_component<velocityComponent>(entity);
+    r.emplace_component<velocityComponent>(entity, velocityComponent{1, 4});
+    auto &component = r.get_component<velocityComponent>();
+    REQUIRE((component[entity]->x == 1 && component[entity]->y == 4));
 }
 
 TEST_CASE("Remove component from entity", "[Registry Components]")
@@ -82,6 +92,27 @@ TEST_CASE("Get not registered component", "[Registry Components]")
 {
     ecs::registry r;
 
+    REQUIRE_THROWS_AS(r.get_component<velocityComponent>(), ecs::exceptions::component_not_registered_exception);
+}
+
+TEST_CASE("Get not registered with other component component", "[Registry Components]")
+{
+    ecs::registry r;
+
+    r.register_component<positionComponent>();
+    try {
+        r.get_component<velocityComponent>();
+    } catch (std::exception &exception) {
+#if (WIN32)
+        REQUIRE(
+            std::string(exception.what()) == "Component struct velocityComponent not registered. Registered components:\n\t- struct positionComponent"
+        );
+#elif (__GNUC__)
+        REQUIRE(
+            std::string(exception.what()) == "Component velocityComponent not registered. Registered components:\n\t- positionComponent"
+        );
+#endif
+    }
     REQUIRE_THROWS_AS(r.get_component<velocityComponent>(), ecs::exceptions::component_not_registered_exception);
 }
 
