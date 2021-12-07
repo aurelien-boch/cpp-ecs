@@ -14,7 +14,7 @@ namespace ecs::exceptions
     {
         _errorMessage = "Component " +
                         _getName(component) +
-                        " already registered. registered components:";
+                        " already registered. Registered components:";
 
         for (auto const &e : registeredComponents)
             _errorMessage += "\n\t- " + _getName(e);

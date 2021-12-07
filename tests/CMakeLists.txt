@@ -21,6 +21,8 @@ add_executable(
     libecs_tests
         TestRegistryEntities.cpp
         TestRegistryComponents.cpp
+        TestComponentAlreadyRegisteredException.cpp
+        TestComponentNotRegisteredException.cpp
 )
 
 target_link_libraries(
@@ -42,4 +44,5 @@ set_target_properties(
 
 add_custom_command(TARGET libecs_tests POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ecs> $<TARGET_FILE_DIR:libecs_tests>
+    COMMENT "Copying libecs to test directory"
 )
