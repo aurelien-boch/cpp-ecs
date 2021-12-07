@@ -24,7 +24,7 @@ TEST_CASE("No components registered, component already registered exception", "[
 #if (WIN32)
     REQUIRE(std::string(exception.what()) == "Component struct velocityComponent already registered. Registered components:");
 #elif (__GNUC__)
-    REQUIRE(std::string(exception.what()) == "Component velocityComponent already registered. Registered components:"));
+    REQUIRE(std::string(exception.what()) == "Component velocityComponent already registered. Registered components:");
 #endif
 }
 
